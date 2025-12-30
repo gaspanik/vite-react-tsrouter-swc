@@ -12,24 +12,31 @@ function Index() {
       <div className="flex flex-col items-start gap-1">
         <div className="flex items-center gap-2">
           <SquareCode className="w-6 h-6" />
-          <h1 className="font-medium text-slate-900 text-xl">
+          <h1 className="font-medium text-neutral-900 text-xl">
             React + Tanstack Router and Tailwind CSS v4 Starter
           </h1>
         </div>
-        <p className="mt-2 mb-4 text-slate-600 text-sm">
+        <p className="mt-2 mb-4 text-neutral-500 text-sm">
           A modern React setup with TypeScript, SWC compiler, Tanstack Router,
           Tailwind CSS v4, and Lucide icons.
+          <br />
+          Guidelines included :D — GitHub Copilot and Gemini —
         </p>
-        <h2 className="mb-3 font-medium text-md text-slate-600">
+        <p className="mb-6 font-bold text-neutral-600 text-sm">
+          Get started by editing <code>`src/routes/index.tsx`</code>
+        </p>
+        <h2 className="mb-3 font-medium text-md text-neutral-600">
           Shadcn/ui `cn` utility function to conditionally join classNames.
         </h2>
         <div className="my-1">
-          <Button className="" active>
+          {/* Demonstrate active state styling */}
+          <Button active>
             <CheckSquare2 className="mr-1 w-4 h-4" />
             Button w/ active
           </Button>
           {` `}
-          <Button className="" disabled>
+          {/* Demonstrate override of tailwind classes */}
+          <Button className="bg-neutral-50" disabled>
             <Square className="mr-1 w-4 h-4" />
             Button w/ disabled
           </Button>
