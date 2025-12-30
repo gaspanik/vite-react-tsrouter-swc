@@ -1,73 +1,116 @@
-# React + TypeScript + Vite
+# React + TypeScript + SWC + TanStack Router + Tailwind CSS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+モダンな技術スタックを使用したReactアプリケーションのテンプレートです。
 
-Currently, two official plugins are available:
+## 🚀 技術スタック
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **[React 19](https://react.dev/)** - UIライブラリ
+- **[TypeScript](https://www.typescriptlang.org/)** - 型安全な開発
+- **[Vite 7](https://vite.dev/)** - 高速ビルドツール
+- **[@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc)** - SWCによる高速なFast Refresh
+- **[TanStack Router](https://tanstack.com/router)** - 型安全なルーティング
+- **[Tailwind CSS v4](https://tailwindcss.com/)** - ユーティリティファーストCSS
+- **[Biome](https://biomejs.dev/)** - 高速なリンター・フォーマッター
+- **[pnpm](https://pnpm.io/)** - 効率的なパッケージマネージャー
 
-## React Compiler
+## 📁 プロジェクト構造
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+ts-swc/
+├── public/              # 静的アセット
+├── src/
+│   ├── assets/         # 画像・フォントなど
+│   ├── components/     # 再利用可能なコンポーネント
+│   │   └── ButtonCn.tsx
+│   ├── lib/            # ユーティリティ関数
+│   │   └── utils.ts
+│   ├── routes/         # TanStack Routerのルート定義
+│   │   ├── __root.tsx
+│   │   └── index.tsx
+│   ├── index.css       # グローバルスタイル
+│   ├── main.tsx        # エントリーポイント
+│   └── routeTree.gen.ts # TanStack Router自動生成ファイル
+├── biome.json          # Biome設定
+├── mise.toml           # Mise設定（ツールバージョン管理）
+├── package.json        # 依存関係
+├── pnpm-lock.yaml      # pnpmロックファイル
+├── pnpm-workspace.yaml # pnpmワークスペース設定
+├── tsconfig.json       # TypeScript設定
+├── tsconfig.app.json   # アプリ用TypeScript設定
+├── tsconfig.node.json  # Node用TypeScript設定
+└── vite.config.ts      # Vite設定
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ セットアップ
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 依存関係のインストール
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
 ```
+
+### 開発サーバーの起動
+
+```bash
+pnpm dev
+```
+
+開発サーバーが起動し、通常 http://localhost:5173 でアクセスできます。
+
+## 📝 利用可能なコマンド
+
+```bash
+# 開発サーバー起動
+pnpm dev
+
+# プロダクションビルド
+pnpm build
+
+# ビルドしたアプリのプレビュー
+pnpm preview
+
+# コードのリント
+pnpm lint
+
+# コードのフォーマット
+pnpm format
+
+# リント + フォーマット
+pnpm check
+```
+
+## 🎨 Tailwind CSS v4
+
+このプロジェクトはTailwind CSS v4を使用しています。設定は [@tailwindcss/vite](https://tailwindcss.com/docs/guides/vite) プラグインを通じて行われます。
+
+## 🧭 TanStack Router
+
+TanStack Routerは自動的にルート定義を生成します。`src/routes/`配下にファイルを追加すると、自動的にルーティングが設定されます。
+
+- `__root.tsx` - ルートレイアウト
+- `index.tsx` - ホームページ（`/`）
+
+開発時は [TanStack Router DevTools](https://tanstack.com/router/latest/docs/framework/react/devtools) が利用可能です。
+
+## 📦 主要な機能
+
+- **型安全なルーティング** - TanStack Routerによる完全な型推論
+- **高速なHMR** - SWCによる超高速なFast Refresh
+- **自動コード分割** - TanStack Routerの自動コード分割機能
+- **パスエイリアス** - `@/` で `src/` にアクセス可能
+- **Biome統合** - ESLint + Prettierより高速なツールチェーン
+
+## 🔧 カスタマイズ
+
+### パスエイリアスの追加
+
+[vite.config.ts](vite.config.ts) の `resolve.alias` セクションで追加のエイリアスを定義できます。
+
+### コンポーネントライブラリ
+
+このプロジェクトには、Tailwind CSSを使用したユーティリティが含まれています：
+
+- `class-variance-authority` - バリアント管理
+- `clsx` & `tailwind-merge` - クラス名の結合
+- `tailwind-variants` - バリアント定義
+- `lucide-react` - アイコンライブラリ

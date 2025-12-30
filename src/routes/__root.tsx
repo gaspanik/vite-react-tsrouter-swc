@@ -11,9 +11,9 @@ const RootLayout = () => (
           <li>
             <Link
               to="/"
-              className="font-bold [&.active]:font-bold text-slate-500 hover:text-blue-800 [&.active]:text-slate-700"
+              className="font-bold [&.active]:font-bold text-slate-500 hover:text-blue-800 [&.active]:text-blue-600"
             >
-              Home
+              Tanstack Router Home
             </Link>{' '}
           </li>
         </ul>
