@@ -14,6 +14,9 @@ const router = createRouter({
   // Set the base path for the router, if building with a base path other than `/`
   // use the build option: `--base=/some-path/` to set this value
   basepath: import.meta.env.BASE_URL,
+  // scroll restoration behavior
+  defaultPreload: 'intent',
+  scrollRestoration: true,
 })
 
 // Register the router instance for type safety
