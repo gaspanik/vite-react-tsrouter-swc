@@ -21,7 +21,7 @@ Minimal React 19 + TypeScript + Vite 7 + Tailwind CSS 4 starter with TanStack Ro
 - **Routes**: `src/routes/` for page components (auto-generates `src/routeTree.gen.ts`)
 - **Styles**: `src/index.css` with `@import "tailwindcss"` only (no config file, v4 approach)
 - **Components**: `src/components/` for reusable UI components
-- **Utilities**: `src/lib/utils.ts` with `cn` function (clsx + tailwind-merge)
+- **Utilities**: `src/lib/utils.ts` with `cn` function (clsx + tailwind-merge), `src/lib/image.ts` for optimized image handling
 - **Path Alias**: `@/` maps to `src/` for cleaner imports (configured in both `vite.config.ts` and `tsconfig.app.json`)
 - **TypeScript**: Project references (`tsconfig.json` references `tsconfig.app.json` and `tsconfig.node.json`)
 - **Vite Config**: `vite.config.ts` with `base: './'` (relative path deployment)
@@ -359,8 +359,91 @@ Three approaches for building components with variant styles:
 import { IconName } from 'lucide-react'
 
 function Component() {
+  return <IconName className="w-4 h-4" />
+}
+```
+
+## Asset Management
+
+### Image Utilities (`src/lib/image.ts`)
+
+This project uses Vite's `import.meta.glob` for optimized image handling. All images should be placed in `src/assets/images/`.
+
+**Supported formats**: `jpg`, `jpeg`, `png`, `webp`, `svg`
+
+#### getImage()
+
+Get images with or without file extension. Automatically resolves extension if omitted.
+
+```tsx
+import { getImage } from '@/lib/image'
+
+function Component() {
   return (
-   Troubleshooting
+    <img 
+      src={getImage('portrait.jpg')}  // With extension
+      alt="Portrait" 
+    />
+    // or
+    <img 
+      src={getImage('portrait')}      // Auto-detects portrait.jpg
+      alt="Portrait" 
+    />
+  )
+}
+```
+
+- Returns empty string if image not found
+- Dev mode: Logs console warning for missing images
+- Eager loading (all images loaded at build time)
+
+#### getImageAsync()
+
+Lazy-load large images for better performance:
+
+```tsx
+import { getImageAsync } from '@/lib/image'
+import { useState, useEffect } from 'react'
+
+function Gallery() {
+  const [imageUrl, setImageUrl] = useState('')
+  
+  useEffect(() => {
+    getImageAsync('large-photo.jpg').then(setImageUrl)
+  }, [])
+  
+  return imageUrl ? <img src={imageUrl} alt="Large" /> : <p>Loading...</p>
+}
+```
+
+#### getAllImages()
+
+Get all images as a key-value map (useful for galleries):
+
+```tsx
+import { getAllImages } from '@/lib/image'
+
+function ImageGallery() {
+  const images = getAllImages() // { filename: url, ... }
+  
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      {Object.entries(images).map(([name, url]) => (
+        <img key={name} src={url} alt={name} />
+      ))}
+    </div>
+  )
+}
+```
+
+**Best Practices:**
+- Place all images in `src/assets/images/`
+- Use descriptive filenames (e.g., `hero-banner.jpg`, not `img1.jpg`)
+- Prefer `getImage()` for static assets (faster)
+- Use `getImageAsync()` only for large images or conditional loading
+- Always provide meaningful `alt` text for accessibility
+
+## Troubleshooting
 
 - **Biome LSP Errors**: Reload VSCode (`Developer: Reload Window`), verify workspace trust
 - **HMR Stopped**: Restart `pnpm dev`, delete `node_modules/.vite` cache
