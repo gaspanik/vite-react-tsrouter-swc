@@ -15,6 +15,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  // Set base to relative path for proper deployment
   base: './',
   resolve: {
     alias: {
