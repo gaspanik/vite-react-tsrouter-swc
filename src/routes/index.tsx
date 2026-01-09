@@ -10,7 +10,7 @@ function Index() {
   return (
     <div className="flex flex-col justify-center items-center bg-white p-6 min-h-[90vh]">
       {/* Page specific title */}
-      <title>Home | React w/ Tanstack Router Starter</title>
+      <title>React w/ Tanstack Router</title>
       <meta name="description" content="A modern React setup with TypeScript, SWC compiler, Tanstack Router, Tailwind CSS v4, and Lucide icons." />
 
       <div className="flex flex-col items-start gap-1 w-full md:w-1/2">
