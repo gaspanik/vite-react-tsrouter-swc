@@ -15,11 +15,12 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  // path aliases
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
-  // Set base to relative path for proper deployment
+  // base path for deploying to a subdirectory
   // base: './',
 })
