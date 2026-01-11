@@ -81,3 +81,17 @@ export function getAllImages(): Record<string, string> {
   )
 }
 
+// Example usage in a React component (Gallery)
+// import { getAllImages } from '@/lib/image'
+// function ImageGallery() {
+//   const images = getAllImages()
+// 
+//   return (
+//     <div className="grid grid-cols-3 gap-4">
+//       {Object.entries(images).map(([name, url]) => (
+//         <img key={name} src={url} alt={name} className="w-full h-auto" />
+//       ))}
+//     </div>
+//   )
+// }
+
