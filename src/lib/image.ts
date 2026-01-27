@@ -4,12 +4,6 @@ const imageModules = import.meta.glob<{ default: string }>(
   { eager: true }
 )
 
-// Lazy load images (for large images or deferred loading)
-const imageModulesAsync = import.meta.glob<{ default: string }>(
-  '/src/assets/images/*.{jpg,jpeg,png,webp,svg}',
-  { eager: false }
-)
-
 /**
  * Get image by name (with or without file extension)
  * @param name - Image name (e.g., 'portrait.jpg' or 'portrait')
@@ -49,24 +43,6 @@ export function getImage(name: string): string {
 //     </main>
 //   )
 // }
-
-/**
- * Asynchronously load an image (useful for large images or deferred loading)
- * @param name - Image filename (e.g., 'large-photo.jpg')
- * @returns Promise resolving to image URL or empty string
- */
-export async function getImageAsync(name: string): Promise<string> {
-  const key = Object.keys(imageModulesAsync).find((path) => path.endsWith(`/${name}`))
-  if (!key) {
-    if (import.meta.env.DEV) {
-      console.warn(`[getImageAsync] Image not found: ${name}`)
-    }
-    return ''
-  }
-
-  const module = await imageModulesAsync[key]()
-  return module.default
-}
 
 /**
  * Get all images as a key-value map (useful for galleries)

@@ -365,9 +365,13 @@ function Component() {
 
 ## Asset Management
 
-### Image Utilities (`src/lib/image.ts`)
+### Image Utilities
 
 This project uses Vite's `import.meta.glob` for optimized image handling. All images should be placed in `src/assets/images/`.
+
+**Files**:
+- `src/lib/image.ts` - Eager loading (sync functions)
+- `src/lib/imageAsync.ts` - Lazy loading (async functions)
 
 **Supported formats**: `jpg`, `jpeg`, `png`, `webp`, `svg`
 
@@ -402,7 +406,7 @@ function Component() {
 Lazy-load large images for better performance:
 
 ```tsx
-import { getImageAsync } from '@/lib/image'
+import { getImageAsync } from '@/lib/imageAsync'
 import { useState, useEffect } from 'react'
 
 function Gallery() {
@@ -436,11 +440,38 @@ function ImageGallery() {
 }
 ```
 
+#### getAllImagesAsync()
+
+Asynchronously get all images as a key-value map:
+
+```tsx
+import { getAllImagesAsync } from '@/lib/imageAsync'
+import { useState, useEffect } from 'react'
+
+function ImageGallery() {
+  const [images, setImages] = useState<Record<string, string>>({})
+  
+  useEffect(() => {
+    getAllImagesAsync().then(setImages)
+  }, [])
+  
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      {Object.entries(images).map(([name, url]) => (
+        <img key={name} src={url} alt={name} />
+      ))}
+    </div>
+  )
+}
+```
+
 **Best Practices:**
 - Place all images in `src/assets/images/`
 - Use descriptive filenames (e.g., `hero-banner.jpg`, not `img1.jpg`)
-- Prefer `getImage()` for static assets (faster)
-- Use `getImageAsync()` only for large images or conditional loading
+- Prefer `getImage()` for static assets (eager loading, faster initial load)
+- Use `getImageAsync()` for large images or conditional loading (lazy loading)
+- Import async functions from `@/lib/imageAsync`
+- Import sync functions from `@/lib/image`
 - Always provide meaningful `alt` text for accessibility
 
 ## Troubleshooting
