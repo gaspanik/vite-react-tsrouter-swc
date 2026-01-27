@@ -15,6 +15,8 @@ This is a modern Single Page Application (SPA) built with **React 19**, **TypeSc
 | **Vite** | 7.x | Build Tool (using `@vitejs/plugin-react-swc`) |
 | **TanStack Router** | 1.144+ | Type-safe Routing |
 | **Tailwind CSS** | 4.x | Utility-first CSS (via `@tailwindcss/vite`) |
+| **Utilities** | - | `cn` (clsx + tailwind-merge), `class-variance-authority`, `tailwind-variants` |
+| **Icons** | - | `lucide-react` |
 | **Biome** | 2.3+ | Linter & Formatter |
 | **pnpm** | 10.x | Package Manager (Strictly enforced) |
 
@@ -30,15 +32,23 @@ This is a modern Single Page Application (SPA) built with **React 19**, **TypeSc
 - `pnpm lint`: Run Biome linter (fix with `--write`).
 - `pnpm format`: Run Biome formatter (fix with `--write`).
 
+**Task Runner (Mise)**
+- `mise run vite:dev` → `pnpm dev`
+- `mise run vite:build` → `pnpm build`
+- `mise run vite:preview` → `pnpm preview`
+
 ## 4. Project Structure
 
 ```
 ts-swc/
 ├── src/
 │   ├── assets/            # Static assets
+│   │   └── images/        # Optimized image handling
 │   ├── components/        # Reusable UI components
 │   │   └── ButtonCn.tsx   # Example component using 'cn' utility
 │   ├── lib/               # Utility functions
+│   │   ├── image.ts       # Eager image loading
+│   │   ├── imageAsync.ts  # Lazy image loading
 │   │   └── utils.ts       # Contains 'cn' (clsx + tailwind-merge)
 │   ├── routes/            # TanStack Router file-based routes
 │   │   ├── __root.tsx     # Root layout
@@ -57,37 +67,76 @@ ts-swc/
 ### React
 - **Imports**: Do NOT import `React`. Use named imports for hooks (e.g., `import { useState } from 'react'`).
 - **Components**: Use function declarations. Explicitly type props with interfaces.
+- **Structure**: Use semantic HTML tags (`header`, `main`, `footer`, etc.).
 - **Fragments**: Use `<>...</>` syntax.
-
-### Styling (Tailwind CSS v4)
-- **Configuration**: NO `tailwind.config.js`. Configuration is CSS-first (variables in `src/index.css` via `@theme`).
-- **Utility**: Always use the `cn(...)` utility from `@/lib/utils` for class merging.
-  ```tsx
-  import { cn } from '@/lib/utils'
-  // Usage: className={cn("base-classes", conditional && "extra", className)}
-  ```
-- **Icons**: Use `lucide-react` for icons.
-
-### Routing (TanStack Router)
-- **File-Based**: Routes are defined by files in `src/routes/`.
-- **Generation**: The file `src/routeTree.gen.ts` is auto-generated. **NEVER edit it manually.**
-- **Creation**: Use `createFileRoute` for defining route components.
-  ```tsx
-  import { createFileRoute } from '@tanstack/react-router'
-  export const Route = createFileRoute('/')({ component: HomeComponent })
-  ```
-
-### Code Quality (Biome)
-- **Strict Mode**: The project uses strict linting rules.
-- **Formatting**: 2 spaces indentation, double quotes for JSX, no semicolons (unless needed), trailing commas.
-- **Workflow**: Run `pnpm check` before committing changes.
 
 ### TypeScript
 - **Path Alias**: Use `@/` to import from `src/`.
 - **Strictness**: `noImplicitAny` and `strict` are enabled.
+- **Modules**: `moduleResolution: "bundler"`.
 
-## 6. Critical Rules
+### Code Quality (Biome)
+- **Formatting**: 2 spaces indentation, double quotes for JSX, no semicolons (unless needed), trailing commas.
+- **Workflow**: Run `pnpm check` before committing.
+
+### Routing (TanStack Router)
+- **File-Based**: Routes are defined by files in `src/routes/`.
+- **Generation**: `src/routeTree.gen.ts` is auto-generated. **NEVER edit it manually.**
+- **Creation**: Use `createFileRoute` for defining route components.
+- **Navigation**: Use `Link` component.
+  ```tsx
+  import { Link } from '@tanstack/react-router'
+  <Link to="/about" className="[&.active]:font-bold">About</Link>
+  ```
+
+### Tailwind CSS v4
+- **Configuration**: NO `tailwind.config.js`. Use CSS variables or `@theme` directives in `src/index.css`.
+- **Imports**: `@import "tailwindcss";` in `src/index.css`.
+- **Class Names**: Use v4 syntax (e.g., `gap-*` instead of `space-x-*`, no `divide-*`).
+- **Utilities**:
+  - Use `cn(...)` for merging classes.
+  - Use `class-variance-authority` (CVA) for variant APIs.
+  - Use `tailwind-variants` for slot-based multi-element styling.
+- **Best Practices**:
+  - Prefer standard spacing scale (`p-4`) over arbitrary values (`p-[16px]`).
+  - Ensure color contrast meets WCAG AA standards.
+  - Use `aria-*` attributes for interactive elements.
+
+## 6. Component Patterns
+
+### `cn` Utility
+Use for simple components with conditional classes.
+```tsx
+import { cn } from '@/lib/utils'
+// className={cn('base', active && 'active', className)}
+```
+
+### Variant API (CVA)
+Use for single-element components with multiple variants.
+```tsx
+import { cva } from 'class-variance-authority'
+// const buttonVariants = cva(...)
+```
+
+### Slot-Based (Tailwind Variants)
+Use for multi-element components.
+```tsx
+import { tv } from 'tailwind-variants'
+// const card = tv({ slots: { ... }, variants: { ... } })
+```
+
+## 7. Asset Management
+
+- **Location**: Place images in `src/assets/images/`.
+- **Eager Loading**: `import { getImage } from '@/lib/image'` (returns string).
+- **Lazy Loading**: `import { getImageAsync } from '@/lib/imageAsync'` (returns Promise).
+- **Galleries**: `getAllImages()` or `getAllImagesAsync()`.
+- **Extensions**: Can be omitted (auto-resolves).
+
+## 8. Critical Rules & Pitfalls
 
 1.  **Package Manager**: MUST use **pnpm**. Do not use `npm` or `yarn`.
 2.  **Auto-Generated Files**: Do not modify `src/routeTree.gen.ts`.
-3.  **Tailwind v4**: Do not create a `tailwind.config.js`. Use `src/index.css` for theme customization.
+3.  **Tailwind Config**: Do not create `tailwind.config.js`. Use `src/index.css`.
+4.  **Class Merging**: Always use `cn()` when accepting a `className` prop.
+5.  **Dependencies**: Use `pnpm add` to install new packages.
