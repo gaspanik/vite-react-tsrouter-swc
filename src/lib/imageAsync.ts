@@ -1,8 +1,7 @@
 // Lazy load images (for large images or deferred loading)
-const imageModulesAsync = import.meta.glob<{ default: string }>(
-  '/src/assets/images/*.{jpg,jpeg,png,webp,svg}',
-  { eager: false }
-)
+const imageModulesAsync = import.meta.glob<{ default: string }>('/src/assets/images/*.{jpg,jpeg,png,webp,svg}', {
+  eager: false,
+})
 
 /**
  * Asynchronously load an image (useful for large images or deferred loading)
@@ -29,10 +28,14 @@ export async function getImageAsync(name: string): Promise<string> {
 export async function getAllImagesAsync(): Promise<Record<string, string>> {
   const entries = await Promise.all(
     Object.entries(imageModulesAsync).map(async ([path, moduleLoader]) => {
-      const fileName = path.split('/').pop()?.replace(/\.[^.]+$/, '') || ''
+      const fileName =
+        path
+          .split('/')
+          .pop()
+          ?.replace(/\.[^.]+$/, '') || ''
       const module = await moduleLoader()
       return [fileName, module.default]
-    })
+    }),
   )
   return Object.fromEntries(entries)
 }
@@ -45,7 +48,7 @@ export async function getAllImagesAsync(): Promise<Record<string, string>> {
 //     getAllImagesAsync().then(setImages)
 //   }, [])
 //   const images = getAllImagesAsync()
-// 
+//
 //   return (
 //     <div className="grid grid-cols-3 gap-4">
 //       {Object.entries(images).map(([name, url]) => (
@@ -54,4 +57,3 @@ export async function getAllImagesAsync(): Promise<Record<string, string>> {
 //     </div>
 //   )
 // }
-

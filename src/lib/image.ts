@@ -1,8 +1,7 @@
 // Eagerly load all images from /src/assets/images/
-const imageModules = import.meta.glob<{ default: string }>(
-  '/src/assets/images/*.{jpg,jpeg,png,webp,svg}',
-  { eager: true }
-)
+const imageModules = import.meta.glob<{ default: string }>('/src/assets/images/*.{jpg,jpeg,png,webp,svg}', {
+  eager: true,
+})
 
 /**
  * Get image by name (with or without file extension)
@@ -11,15 +10,11 @@ const imageModules = import.meta.glob<{ default: string }>(
  */
 export function getImage(name: string): string {
   // Try with full filename (including extension)
-  const withExt = Object.keys(imageModules).find(
-    (path) => path.endsWith(`/${name}`)
-  )
+  const withExt = Object.keys(imageModules).find((path) => path.endsWith(`/${name}`))
   if (withExt) return imageModules[withExt].default
 
   // Try without extension (auto-detect: portrait → portrait.jpg)
-  const match = Object.keys(imageModules).find((path) =>
-    path.match(new RegExp(`/${name}\\.(jpg|jpeg|png|webp|svg)$`))
-  )
+  const match = Object.keys(imageModules).find((path) => path.match(new RegExp(`/${name}\\.(jpg|jpeg|png|webp|svg)$`)))
   if (!match && import.meta.env.DEV) {
     console.warn(`[getImage] Image not found: ${name}`)
   }
@@ -32,7 +27,7 @@ export function getImage(name: string): string {
 //   return (
 //     <main>
 //       {/* ...existing code... */}
-// 
+//
 //       {/* Portrait aside */}
 //       <aside>
 //         <img
@@ -51,9 +46,13 @@ export function getImage(name: string): string {
 export function getAllImages(): Record<string, string> {
   return Object.fromEntries(
     Object.entries(imageModules).map(([path, module]) => {
-      const fileName = path.split('/').pop()?.replace(/\.[^.]+$/, '') || ''
+      const fileName =
+        path
+          .split('/')
+          .pop()
+          ?.replace(/\.[^.]+$/, '') || ''
       return [fileName, module.default]
-    })
+    }),
   )
 }
 
@@ -61,7 +60,7 @@ export function getAllImages(): Record<string, string> {
 // import { getAllImages } from '@/lib/image'
 // function ImageGallery() {
 //   const images = getAllImages()
-// 
+//
 //   return (
 //     <div className="grid grid-cols-3 gap-4">
 //       {Object.entries(images).map(([name, url]) => (
@@ -70,4 +69,3 @@ export function getAllImages(): Record<string, string> {
 //     </div>
 //   )
 // }
-
