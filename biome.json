@@ -1,14 +1,8 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
-    "includes": [
-      "**/src/**/*",
-      "**/index.html",
-      "**/vite.config.js",
-      "!**/src/routeTree.gen.ts",
-      "!dist"
-    ],
+    "includes": ["**/src/**/*", "**/index.html", "**/vite.config.js", "!**/src/routeTree.gen.ts", "!dist"],
     "ignoreUnknown": true
   },
   "formatter": {
