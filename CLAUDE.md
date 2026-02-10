@@ -532,6 +532,16 @@ Use mise commands in environments with mise installed, otherwise use pnpm direct
 
 ## Claude Code-Specific Guidelines
 
+### Tailwind CSS MCP Tools
+- **Use MCP tools for Tailwind documentation**: When available, use the Tailwind CSS MCP tools to reference the latest documentation
+  - `mcp__TailwindCSS__get_tailwind_utilities` - Get utilities by category, property, or search term
+  - `mcp__TailwindCSS__get_tailwind_colors` - Get color palette information
+  - `mcp__TailwindCSS__search_tailwind_docs` - Search official documentation
+  - `mcp__TailwindCSS__convert_css_to_tailwind` - Convert CSS to Tailwind classes
+  - `mcp__TailwindCSS__get_tailwind_config_guide` - Get framework-specific configuration guides
+- **Verify v4 syntax**: Always use MCP tools to verify Tailwind CSS v4 class names and best practices
+- **Class conversion**: Use `convert_css_to_tailwind` when converting existing CSS to Tailwind utilities
+
 ### File Operations
 - When reading files, use the Read tool for file contents
 - When editing files, use the Edit tool for targeted changes

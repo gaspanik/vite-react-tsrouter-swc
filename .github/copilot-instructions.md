@@ -98,7 +98,21 @@ pnpm check        # Biome lint + format (auto-fix)
 ### Core Principles
 
 - **No Config File Needed**: No `tailwind.config.js`, just `@import "tailwindcss"` in `src/index.css`
-- *Accessibility (a11y)
+- **Vite Plugin**: `@tailwindcss/vite` required (no PostCSS needed)
+- **Customization**: Use CSS variables or `@theme` directives (not traditional JS config)
+
+### MCP Tools (When Available)
+
+If Tailwind CSS MCP tools are available in your environment, use them to access the latest documentation and utilities:
+
+- **Search Documentation**: Use `mcp_tailwindcss_m_search_tailwind_docs` to search official Tailwind CSS documentation for specific topics, utilities, or concepts
+- **Get Utilities**: Use `mcp_tailwindcss_m_get_tailwind_utilities` to retrieve utility classes by category, property, or search term
+- **Configuration Guide**: Use `mcp_tailwindcss_m_get_tailwind_config_guide` for framework-specific setup instructions
+- **Component Templates**: Use `mcp_tailwindcss_m_generate_component_template` to generate HTML component templates with Tailwind classes
+- **CSS Conversion**: Use `mcp_tailwindcss_m_convert_css_to_tailwind` to convert traditional CSS to Tailwind utility classes
+- **Color Palette**: Use `mcp_tailwindcss_m_get_tailwind_colors` to retrieve color palette information
+
+These MCP tools provide always up-to-date information directly from Tailwind CSS documentation, ensuring accuracy for v4-specific features and changes.
 
 ### Navigation Structure
 

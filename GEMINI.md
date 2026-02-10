@@ -90,6 +90,7 @@ ts-swc/
   ```
 
 ### Tailwind CSS v4
+- **Documentation**: Use available **Tailwind CSS MCP** tools (e.g., `search_tailwind_docs`, `get_tailwind_utilities`) to reference the latest v4 documentation and verify utility availability.
 - **Configuration**: NO `tailwind.config.js`. Use CSS variables or `@theme` directives in `src/index.css`.
 - **Imports**: `@import "tailwindcss";` in `src/index.css`.
 - **Class Names**: Use v4 syntax (e.g., `gap-*` instead of `space-x-*`, no `divide-*`).
