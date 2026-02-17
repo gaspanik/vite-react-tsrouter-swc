@@ -16,7 +16,8 @@
     "bracketSameLine": false,
     "bracketSpacing": true,
     "expand": "auto",
-    "useEditorconfig": true
+    "useEditorconfig": true,
+    "trailingNewline": true
   },
   "linter": {
     "enabled": true,
