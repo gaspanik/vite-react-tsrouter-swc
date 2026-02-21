@@ -24,11 +24,13 @@ ts-swc/
 │   ├── components/     # 再利用可能なコンポーネント
 │   │   └── ButtonCn.tsx
 │   ├── lib/            # ユーティリティ関数
-│   │   ├── image.ts    # 画像アセット管理
-│   │   └── utils.ts    # クラス名結合
+│   │   ├── image.ts         # 画像アセット管理（eager loading）
+│   │   ├── imageAsync.ts    # 画像アセット管理（lazy loading）
+│   │   └── utils.ts         # クラス名結合
 │   ├── routes/         # TanStack Routerのルート定義
 │   │   ├── __root.tsx
-│   │   └── index.tsx
+│   │   ├── index.tsx
+│   │   └── about.tsx
 │   ├── index.css       # グローバルスタイル
 │   ├── main.tsx        # エントリーポイント
 │   └── routeTree.gen.ts # TanStack Router自動生成ファイル
@@ -91,6 +93,7 @@ TanStack Routerは自動的にルート定義を生成します。`src/routes/`�
 
 - `__root.tsx` - ルートレイアウト
 - `index.tsx` - ホームページ（`/`）
+- `about.tsx` - About ページ（`/about`）
 
 開発時は [TanStack Router DevTools](https://tanstack.com/router/latest/docs/framework/react/devtools) が利用可能です。
 
