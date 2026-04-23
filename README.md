@@ -1,3 +1,6 @@
+ViteがVer.8になったので、内容を最新に更新した以下のリポジトリをご覧ください
+https://github.com/gaspanik/vite-react-tsrouter
+
 # React + TypeScript + SWC + TanStack Router + Tailwind CSS
 
 モダンな技術スタックを使用したReactアプリケーションのテンプレートです。
